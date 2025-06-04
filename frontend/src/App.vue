@@ -1,47 +1,37 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import PostList from './components/PostList.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <h1>Post Management</h1>
   </header>
 
   <main>
-    <TheWelcome />
+    <PostList />
   </main>
 </template>
 
-<style scoped>
+<style>
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
 header {
-  line-height: 1.5;
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+header h1 {
+  margin: 0;
+  font-size: 2rem;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+main {
+  padding: 2rem 0;
 }
 </style>
