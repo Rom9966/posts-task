@@ -7,6 +7,7 @@ use App\Services\PostService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
@@ -26,7 +27,7 @@ class PostController extends Controller
     {
         $perPage = $request->input('per_page', 10);
         $posts = $this->postService->getAllPosts($perPage);
-        return $this->successResponse($posts);
+        return $this->successResponse(PostResource::collection($posts));
     }
 
     /**
@@ -66,7 +67,7 @@ class PostController extends Controller
         $query = $request->input('query');
         $perPage = $request->input('per_page', 10);
         $posts = $this->postService->searchPosts($query, $perPage);
-        return $this->successResponse($posts);
+        return $this->successResponse(PostResource::collection($posts));
     }
 
     public function sync()
