@@ -10,16 +10,24 @@ const api = axios.create({
 });
 
 export const postService = {
-    async getAllPosts() {
-        const response = await api.get('/posts');
-        return response.data.data;
+    async getAllPosts(page = 1, perPage = 10) {
+        const response = await api.get('/posts', {
+            params: { page, per_page: perPage }
+        });
+        return {
+            data: response.data.data.data,
+            meta: response.data.data.meta
+        };
     },
 
-    async searchPosts(query) {
+    async searchPosts(query, page = 1, perPage = 10) {
         const response = await api.get('/posts/search', {
-            params: { query }
+            params: { query, page, per_page: perPage }
         });
-        return response.data.data;
+        return {
+            data: response.data.data.data,
+            meta: response.data.data.meta
+        };
     },
 
     async syncPosts() {
