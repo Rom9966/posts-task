@@ -3,6 +3,7 @@
     <SearchBar
       v-model="searchQuery"
       @sync="syncPosts"
+      @search="searchPosts"
     />
 
     <div v-if="loading" class="loading">Loading...</div>

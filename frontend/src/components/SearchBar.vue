@@ -6,6 +6,7 @@
       placeholder="Search posts..."
       class="search-input"
       @input="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('search')"
     />
     <button @click="$emit('sync')" class="sync-button">Sync Posts</button>
   </div>
