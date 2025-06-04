@@ -34,7 +34,10 @@ A full-stack application that fetches data from a public API, stores it in a dat
    ```bash
    composer install
    ```
-4. Copy `.env.example` to `.env` and configure your database settings
+4. Copy `.env.example` to `.env` and configure your database settings:
+   ```bash
+   cp .env.example .env
+   ```
 5. Generate application key:
    ```bash
    php artisan key:generate
@@ -51,14 +54,39 @@ A full-stack application that fetches data from a public API, stores it in a dat
 ### Frontend Setup
 
 1. Navigate to the frontend directory
-2. Install dependencies:
+2. Copy the environment file:
+   ```bash
+   cp .env.example .env
+   ```
+3. Configure the API URL in `.env` if needed:
+   ```
+   VITE_API_URL=http://localhost:8000/api
+   ```
+4. Install dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+5. Start the development server:
    ```bash
    npm run dev
    ```
+
+## Environment Variables
+
+### Backend (.env)
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+### Frontend (.env)
+```
+VITE_API_URL=http://localhost:8000/api
+```
 
 ## API Endpoints
 
