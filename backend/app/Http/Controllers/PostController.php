@@ -22,9 +22,10 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = $this->postService->getAllPosts();
+        $perPage = $request->input('per_page', 10);
+        $posts = $this->postService->getAllPosts($perPage);
         return $this->successResponse($posts);
     }
 
@@ -63,7 +64,8 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $posts = $this->postService->searchPosts($query);
+        $perPage = $request->input('per_page', 10);
+        $posts = $this->postService->searchPosts($query, $perPage);
         return $this->successResponse($posts);
     }
 
