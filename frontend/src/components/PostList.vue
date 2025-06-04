@@ -27,10 +27,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
+import { postService } from '../services/api'
 
-const API_URL = 'http://localhost:8000/api'
 const posts = ref([])
 const loading = ref(false)
 const error = ref(null)
@@ -40,8 +39,7 @@ const fetchPosts = async () => {
   loading.value = true
   error.value = null
   try {
-    const response = await axios.get(`${API_URL}/posts`)
-    posts.value = response.data
+    posts.value = await postService.getAllPosts()
   } catch (e) {
     error.value = 'Failed to fetch posts'
     console.error(e)
@@ -59,10 +57,7 @@ const searchPosts = async () => {
   loading.value = true
   error.value = null
   try {
-    const response = await axios.get(`${API_URL}/posts/search`, {
-      params: { query: searchQuery.value }
-    })
-    posts.value = response.data
+    posts.value = await postService.searchPosts(searchQuery.value)
   } catch (e) {
     error.value = 'Failed to search posts'
     console.error(e)
@@ -77,7 +72,7 @@ const syncPosts = async () => {
   loading.value = true
   error.value = null
   try {
-    await axios.post(`${API_URL}/posts/sync`)
+    await postService.syncPosts()
     await fetchPosts()
   } catch (e) {
     error.value = 'Failed to sync posts'

@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\PostService;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
+    use ApiResponse;
+
+    protected $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Post::all();
+        $posts = $this->postService->getAllPosts();
+        return $this->successResponse($posts);
     }
 
     /**
@@ -51,32 +63,18 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        
-        return Post::where('title', 'like', "%{$query}%")
-            ->orWhere('body', 'like', "%{$query}%")
-            ->get();
+        $posts = $this->postService->searchPosts($query);
+        return $this->successResponse($posts);
     }
 
     public function sync()
     {
-        try {
-            $response = Http::get('https://jsonplaceholder.typicode.com/posts');
-            $posts = $response->json();
-
-            foreach ($posts as $post) {
-                Post::updateOrCreate(
-                    ['external_id' => $post['id']],
-                    [
-                        'title' => $post['title'],
-                        'body' => $post['body'],
-                        'user_id' => $post['userId']
-                    ]
-                );
-            }
-
-            return response()->json(['message' => 'Posts synchronized successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to sync posts'], 500);
+        $success = $this->postService->syncPosts();
+        
+        if ($success) {
+            return $this->successResponse(null, 'Posts synchronized successfully');
         }
+        
+        return $this->errorResponse('Failed to sync posts', 500);
     }
 }
