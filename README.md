@@ -15,6 +15,9 @@ A full-stack application that fetches data from a public API, stores it in a dat
 - Display data in a user-friendly interface
 - Search functionality to filter through data
 - RESTful API endpoints
+- Pagination for posts and search results
+- Consistent API responses using Laravel API Resources
+- Loader overlay in the frontend for better UX
 
 ## Setup Instructions
 
@@ -88,11 +91,36 @@ DB_PASSWORD=your_password
 VITE_API_URL=http://localhost:8000/api
 ```
 
-## API Endpoints
+## API Endpoints & Response Structure
 
-- `GET /api/posts` - Fetch all posts
-- `GET /api/posts/search` - Search posts
+- `GET /api/posts` - Fetch all posts (paginated)
+- `GET /api/posts/search` - Search posts (paginated)
 - `POST /api/posts/sync` - Sync posts from external API
+
+#### API Response Example (Paginated)
+
+```
+{
+  "status": "success",
+  "message": null,
+  "data": {
+    "data": [
+      { "id": 1, "external_id": 1, "title": "...", ... },
+      ...
+    ],
+    "links": { ... },
+    "meta": {
+      "current_page": 1,
+      "last_page": 10,
+      "per_page": 10,
+      "total": 100
+    }
+  }
+}
+```
+
+- Use `data.data` for the array of posts.
+- Use `data.meta` for pagination info.
 
 ## Development Progress
 
