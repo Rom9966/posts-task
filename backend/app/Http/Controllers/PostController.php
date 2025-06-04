@@ -27,7 +27,7 @@ class PostController extends Controller
     {
         $perPage = $request->input('per_page', 10);
         $posts = $this->postService->getAllPosts($perPage);
-        return $this->successResponse(PostResource::collection($posts));
+        return PostResource::collection($posts);
     }
 
     /**
@@ -67,7 +67,7 @@ class PostController extends Controller
         $query = $request->input('query');
         $perPage = $request->input('per_page', 10);
         $posts = $this->postService->searchPosts($query, $perPage);
-        return $this->successResponse(PostResource::collection($posts));
+        return PostResource::collection($posts);
     }
 
     public function sync()
